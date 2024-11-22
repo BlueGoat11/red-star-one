@@ -11,8 +11,13 @@ function spawnLevel (num: number) {
         scene.setBackgroundImage(assets.image`dungeonBG`)
     } else {
         tiles.setCurrentTilemap(tilemap`three`)
+        scene.setBackgroundImage(assets.image`cityBG`)
     }
     badStar = sprites.create(assets.image`badStar`, SpriteKind.Enemy)
+    badStar.setPosition(0, 97)
+    badStar.y += 390
+    info.startCountdown(3)
+    pause(3000)
     badStar.follow(forest, randint(70, 90))
 }
 scene.onHitWall(SpriteKind.Player, function (sprite, location) {
@@ -146,7 +151,7 @@ info.onLifeZero(function () {
     game.gameOver(false)
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.collectibleInsignia, function (sprite, location) {
-    spawnLevel(randint(1, 2))
+    spawnLevel(randint(1, 3))
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     info.changeLifeBy(-1)
@@ -158,13 +163,18 @@ let forest: Sprite = null
 scene.setBackgroundImage(assets.image`start`)
 music.play(music.stringPlayable("C5 A B G A F G E ", 70), music.PlaybackMode.UntilDone)
 scene.setBackgroundImage(assets.image`normalBG`)
-game.showLongText("Your name is Forest, and you have been training your whole life to complete the ancient obstacle course. GOAT EATING SANDWICH", DialogLayout.Full)
+game.showLongText("Your name is Forest, and you have been training your whole life to complete the ancient obstacle course of GOAT EATING SANDWICH.", DialogLayout.Full)
+game.showLongText("Suddenly, an (apparently) evil red star starts to follow you. Your only guess is if it touches you, you're cooked. You must get as far as you can through the ancient ruins of GOAT EATING SANDWICH.", DialogLayout.Full)
 forest = sprites.create(assets.image`idle`, SpriteKind.Player)
 scene.cameraFollowSprite(forest)
 tiles.setCurrentTilemap(tilemap`one`)
+forest.setStayInScreen(true)
 controller.moveSprite(forest, 100, 0)
 spawnLevel(1)
 info.setLife(5)
+forever(function () {
+    music.play(music.stringPlayable("E B C5 A B G A F ", 95), music.PlaybackMode.UntilDone)
+})
 forever(function () {
     forest.vy += temp
     temp += 1
