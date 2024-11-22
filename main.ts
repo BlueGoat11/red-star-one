@@ -137,6 +137,10 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     false
     )
 })
+info.onLifeZero(function () {
+    sprites.destroy(forest, effects.disintegrate, 500)
+    game.gameOver(false)
+})
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.collectibleInsignia, function (sprite, location) {
     spawnLevel(randint(1, 2))
 })
@@ -148,6 +152,7 @@ let temp = 0
 let badStar: Sprite = null
 let forest: Sprite = null
 scene.setBackgroundImage(assets.image`start`)
+music.play(music.stringPlayable("C5 A B G A F G E ", 70), music.PlaybackMode.UntilDone)
 scene.setBackgroundImage(assets.image`normalBG`)
 game.showLongText("Your name is Forest, and you have been training your whole life to complete the ancient obstacle course. GOAT EATING SANDWICH", DialogLayout.Full)
 forest = sprites.create(assets.image`idle`, SpriteKind.Player)
