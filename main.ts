@@ -1,16 +1,19 @@
 function spawnLevel (num: number) {
+    info.changeScoreBy(1)
     forest.setPosition(12, 97)
     forest.y += 390
     sprites.destroy(badStar)
     if (num == 1) {
         tiles.setCurrentTilemap(tilemap`one`)
+        scene.setBackgroundImage(assets.image`normalBG`)
     } else if (num == 2) {
         tiles.setCurrentTilemap(tilemap`two`)
+        scene.setBackgroundImage(assets.image`dungeonBG`)
     } else {
-    	
+        tiles.setCurrentTilemap(tilemap`three`)
     }
     badStar = sprites.create(assets.image`badStar`, SpriteKind.Enemy)
-    badStar.follow(forest)
+    badStar.follow(forest, randint(70, 90))
 }
 scene.onHitWall(SpriteKind.Player, function (sprite, location) {
     temp = 0
@@ -139,6 +142,7 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 info.onLifeZero(function () {
     sprites.destroy(forest, effects.disintegrate, 500)
+    pause(1000)
     game.gameOver(false)
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.collectibleInsignia, function (sprite, location) {
