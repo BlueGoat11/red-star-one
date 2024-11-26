@@ -17,7 +17,7 @@ function spawnLevel (num: number) {
     badStar.setPosition(0, 97)
     badStar.y += 360
     timer.after(2000, function () {
-        badStar.follow(forest, randint(70, 90))
+        badStar.follow(forest, randint(80, 100))
     })
 }
 scene.onHitWall(SpriteKind.Player, function (sprite, location) {
